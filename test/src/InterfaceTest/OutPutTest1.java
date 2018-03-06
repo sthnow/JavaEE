@@ -8,13 +8,13 @@ public class OutPutTest1 implements output1 {
         String name;        //如果在方法里定义变量，例如这里，就是局部变量
         OutPutTest1 opt = new OutPutTest1();
         opt.setName("wang wu");
-        System.out.println(opt.getName());
+        System.out.println((String) opt.getName());
     }
 
 
     @Override
-    public String getName() {
-        return this.name;
+    public <String>String getName() {
+        return (String) this.name;
     }
 
     @Override
@@ -24,4 +24,4 @@ public class OutPutTest1 implements output1 {
 
 
     }
-}
+
