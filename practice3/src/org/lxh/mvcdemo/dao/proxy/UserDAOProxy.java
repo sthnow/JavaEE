@@ -10,6 +10,7 @@ import java.sql.Connection;
 public class UserDAOProxy implements IUserDAO {
     private DatabaseConnection dbc = null;  //定义数据库连接
     private IUserDAO dao = null;    //定义DAO接口
+    boolean flag = false;
 
     public UserDAOProxy(){
         try{
@@ -22,12 +23,27 @@ public class UserDAOProxy implements IUserDAO {
 
     @Override
     public boolean findLogin(User user) throws Exception {
-        boolean flag = false;
+
         try{
             flag = this.dao.findLogin(user);
         }catch (Exception e){
             throw e;
+        }finally{       //在DAO代理操作类中关闭数据库连接
+            this.dbc.close();
         }
         return flag;
+    }
+
+    @Override
+    public boolean addUser(User user) throws Exception {
+
+        try{
+            flag = this.dao.addUser(user);
+        }catch (Exception e){
+            throw e;
+        }finally {
+            this.dbc.close();
+        }
+        return  flag;
     }
 }

@@ -26,20 +26,47 @@ public class UserDAOImpl implements IUserDAO {
     public boolean findLogin(User user) throws Exception {
         boolean flag = false;
         try {
-            String sql = "SELECT name FROM user WHRER userid=? AND password=?";
+            String sql = "SELECT name FROM user WHERE userid=? AND password=?";
             this.pstmt = this.conn.prepareStatement(sql);
             this.pstmt.setString(1, user.getUserid());
             this.pstmt.setString(2, user.getPassword());
             ResultSet rs = this.pstmt.executeQuery();
             if (rs.next()) {      //如果能查询到信息
                 user.setName(rs.getString(1));
-                System.out.println("设置user的name为:" + rs.getString(1));
+                System.out.println("用户名为：" + rs.getString(1));
                 flag = true;
             }
         } catch (Exception e) {
             throw e;
-        } finally {
+        } finally {     //在DAO真实实现类中关闭 pstmt声明语句
             if (pstmt != null) {
+                this.pstmt.close();
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean addUser(User user) throws Exception {
+        /**
+         * 添加用户的方法
+         * 如果添加成功, 返回true   若失败,返回true
+         */
+        boolean flag = false;
+        try {
+            //准备sql模板
+            String sql = "INSERT INTO user(userid,name,password) VALUES (?,?,?)";
+            this.pstmt = this.conn.prepareStatement(sql);
+            this.pstmt.setString(1, user.getUserid());
+            this.pstmt.setString(2, user.getName());
+            this.pstmt.setString(3, user.getPassword());
+            if(this.pstmt.executeUpdate()>0){   //如果更新记录的行数大于0
+                flag = true;    //修改标志位为true，表示更新成功
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (this.pstmt != null) {
                 this.pstmt.close();
             }
         }
