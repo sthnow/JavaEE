@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
 
         System.out.println("LoginServlet-doPost加载成功");
-        String path = "result.jsp";
+        String path = "/login/result.jsp";
         String userid = request.getParameter("userid");
         System.out.println(userid);
         String userpass = request.getParameter("userpass");

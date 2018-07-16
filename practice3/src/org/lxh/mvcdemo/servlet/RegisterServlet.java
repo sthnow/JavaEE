@@ -39,6 +39,13 @@ public class RegisterServlet extends HttpServlet {
             info.add("用户密码不能为空");
         }
 
+        try {
+            if(DAOFactory.getUserDAOInstance().findByID(userid)){
+                info.add("用户名重复，请重新注册");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(info.size() == 0){   //不能info==null作为条件,应该写info.size()==0
 
             System.out.println("注册信息正确,开始注册");
@@ -49,7 +56,8 @@ public class RegisterServlet extends HttpServlet {
             user.setPassword(userpass);
 
             try{
-                if(DAOFactory.getUserDAOInstance().addUser(user)){
+
+                if(DAOFactory.getUserDAOInstance().doCreate(user)){
                     info.add("用户信息添加成功");
                 }
                 else{

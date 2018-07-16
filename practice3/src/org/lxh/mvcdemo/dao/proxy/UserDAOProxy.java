@@ -35,10 +35,23 @@ public class UserDAOProxy implements IUserDAO {
     }
 
     @Override
-    public boolean addUser(User user) throws Exception {
+    public boolean findByID(String userid) throws Exception {
+        boolean flag = false;
+        try{
+            flag = this.dao.findByID(userid);
+        }catch (Exception e){
+            throw e;
+        }finally {
+            this.dbc.close();
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean doCreate(User user) throws Exception {
 
         try{
-            flag = this.dao.addUser(user);
+            flag = this.dao.doCreate(user);
         }catch (Exception e){
             throw e;
         }finally {

@@ -47,7 +47,29 @@ public class UserDAOImpl implements IUserDAO {
     }
 
     @Override
-    public boolean addUser(User user) throws Exception {
+    public boolean findByID(String userid) throws Exception {
+        boolean flag = false;
+        try {
+            String sql = "SELECT * FROM user where userid = ?";
+            this.pstmt = this.conn.prepareStatement(sql);
+            this.pstmt.setString(1, userid);
+            ResultSet rs = this.pstmt.executeQuery();
+            if (rs.next()) {
+                flag = true;
+            }
+        }catch (Exception e){
+            System.out.println("查询id语句出现异常");
+            throw e;
+        }finally {
+            if(this.pstmt != null)
+            this.pstmt.close();
+        }
+        return flag;
+    }
+
+
+    @Override
+    public boolean doCreate(User user) throws Exception {
         /**
          * 添加用户的方法
          * 如果添加成功, 返回true   若失败,返回true
@@ -60,7 +82,7 @@ public class UserDAOImpl implements IUserDAO {
             this.pstmt.setString(1, user.getUserid());
             this.pstmt.setString(2, user.getName());
             this.pstmt.setString(3, user.getPassword());
-            if(this.pstmt.executeUpdate()>0){   //如果更新记录的行数大于0
+            if (this.pstmt.executeUpdate() > 0) {   //如果更新记录的行数大于0
                 flag = true;    //修改标志位为true，表示更新成功
             }
         } catch (Exception e) {
@@ -72,4 +94,6 @@ public class UserDAOImpl implements IUserDAO {
         }
         return flag;
     }
+
+
 }
