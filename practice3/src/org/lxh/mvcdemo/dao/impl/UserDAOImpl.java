@@ -95,5 +95,24 @@ public class UserDAOImpl implements IUserDAO {
         return flag;
     }
 
+    @Override
+    public User findALL(String keyword) throws Exception {
+        User user = new User();
+        try {
+            String sql = "SELECT * from user where userid = ?";
+            this.pstmt = this.conn.prepareStatement(sql);
+            this.pstmt.setString(1,  keyword );
+            ResultSet rs = this.pstmt.executeQuery();
+            if (rs.next()) {
+                user.setUserid(rs.getString(1));
+                user.setName(rs.getString(2));
+                user.setPassword(rs.getString(3));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return user;
+    }
+
 
 }

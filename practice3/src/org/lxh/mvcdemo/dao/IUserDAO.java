@@ -22,5 +22,6 @@ public interface IUserDAO {
      */
     public boolean doCreate(User user) throws Exception;
 
+    public User findALL(String keyword) throws Exception;
     //public boolean doDelete();
 }

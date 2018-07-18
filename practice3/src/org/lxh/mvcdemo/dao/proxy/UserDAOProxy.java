@@ -59,4 +59,13 @@ public class UserDAOProxy implements IUserDAO {
         }
         return  flag;
     }
+
+    @Override
+    public User findALL(String keyword) throws Exception {
+        try{
+            return this.dao.findALL(keyword);
+        }catch (Exception e){
+            throw e;
+        }
+    }
 }
