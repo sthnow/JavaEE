@@ -7,8 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/*  真实主题实现类，实现数据库的具体操作
-    数据库的打开和关闭则有代理类完成
+/**
+ *  真实主题实现类，实现数据库的具体操作
+ *  数据库的打开和关闭则由代理类完成
 */
 public class EmpDAOImpl implements IempDAO {
 

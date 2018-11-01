@@ -18,11 +18,10 @@ public class DatabaseConnection {
 
     //在构造方法中进行数据库连接
     //好处是不用再调用一个方法进行数据库的连接
-    public DatabaseConnection() throws Exception {
+    public DatabaseConnection() throws Exception {  //从构造方法中进行数据库连接
         try {
             Class.forName(DBDRIVER);
             this.conn = DriverManager.getConnection(DBURL, DBUSER, DBPASSWORD);
-            System.out.println("连接数据库成功");
         } catch (Exception e) {
             throw e;
         }

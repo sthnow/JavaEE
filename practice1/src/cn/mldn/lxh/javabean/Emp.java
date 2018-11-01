@@ -31,8 +31,11 @@ public class Emp {
         this.job = job;
     }
 
-    public java.sql.Date getDate() {
-        return (java.sql.Date) date;
+    //页面传过来的时间是java.util.Date类，
+    // 所以这里的set和get方法传入和返回的data类型都要为java.util.Date
+    //如果set方法里的是java.util.Date而返回的是java.sql.Date，则会出现类型转换错误的体制
+    public Date getDate() {
+        return  date;
     }
 
     public void setDate(Date date) {

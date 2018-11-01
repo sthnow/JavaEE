@@ -4,6 +4,10 @@ import cn.mldn.lxh.javabean.Emp;
 
 import java.util.List;
 
+/**
+ * 接口
+ * 定义DAO要实现的方法
+ */
 public interface IempDAO {
     /**
      *
@@ -27,5 +31,8 @@ public interface IempDAO {
      * @return  返回雇员的JavaBean
      * @throws Exception
      */
+
     public Emp findById(int empno) throws Exception;
+
+    //public void doDelete(String keyword) throws Exception;
 }
