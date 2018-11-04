@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--xsi:schemaLocation="-->
+<!--http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">-->
+
+<!--&lt;!&ndash;<bean id="UserService" class="UserServiceImpl">&ndash;&gt;-->
+<!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+<!--</beans>-->
+
+<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
+<!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="-->
+<!--http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd-->
+<!--http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"> &lt;!&ndash; bean definitions here &ndash;&gt;-->
+
+<!---->
+<!--&lt;!&ndash;开启注解的扫描&ndash;&gt;-->
+<!--<context:component-scan base-package="aop.test"></context:component-scan>-->
+<!--</beans>-->
+
+<!--引入aop约束-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--将对象交给spring管理,通过ioc创建及组织对象之间的关系-->
+
+    <!--配置目标对象的bean标签-->
+    <bean id="orderDao" class="aop.test.OrderDaoImpl"></bean>
+
+
+    <!--配置切面类的bean标签-->
+    <bean id="myAspectDao" class="aop.test.MyAspectXml"></bean>
+
+    <!--配置aop-->
+    <aop:config>
+        <!--* *.test.*.save()  -->
+        <!--有了目标对象和切面类的对象以后,需要知道目标对象里的连接点那个需要增强,即配置切入点及织入方式-->
+
+        <!--配置切入点-->
+        <!--第一个* 表示返回值类型为任意-->
+        <!--后面的星  第一个星表示任意的报名,第二个星表示任意的类-->
+        <aop:pointcut id="poincut1" expression="execution(* *.test.*.save())"></aop:pointcut>
+
+        <!--配置通知及通知的织入方式-->
+        <aop:aspect ref="myAspectDao">
+            <aop:before method="before" pointcut-ref="poincut1"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
+
+
