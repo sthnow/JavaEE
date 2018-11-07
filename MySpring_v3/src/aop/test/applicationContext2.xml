@@ -34,21 +34,27 @@
     <!--配置切面类的bean标签-->
     <bean id="myAspectDao" class="aop.test.MyAspectXml"></bean>
 
-    <!--配置aop-->
-    <aop:config>
-        <!--* *.test.*.save()  -->
-        <!--有了目标对象和切面类的对象以后,需要知道目标对象里的连接点那个需要增强,即配置切入点及织入方式-->
 
-        <!--配置切入点-->
-        <!--第一个* 表示返回值类型为任意-->
-        <!--后面的星  第一个星表示任意的报名,第二个星表示任意的类-->
-        <aop:pointcut id="poincut1" expression="execution(* *.test.*.save())"></aop:pointcut>
+   <!--在配置文件中开启aop自动代理-->
+    <aop:aspectj-autoproxy/>
 
-        <!--配置通知及通知的织入方式-->
-        <aop:aspect ref="myAspectDao">
-            <aop:before method="before" pointcut-ref="poincut1"/>
-        </aop:aspect>
-    </aop:config>
+
+
+    <!--&lt;!&ndash;配置aop&ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--&lt;!&ndash;* *.test.*.save()  &ndash;&gt;-->
+        <!--&lt;!&ndash;有了目标对象和切面类的对象以后,需要知道目标对象里的连接点那个需要增强,即配置切入点及织入方式&ndash;&gt;-->
+
+        <!--&lt;!&ndash;配置切入点&ndash;&gt;-->
+        <!--&lt;!&ndash;第一个* 表示返回值类型为任意&ndash;&gt;-->
+        <!--&lt;!&ndash;后面的星  第一个星表示任意的报名,第二个星表示任意的类&ndash;&gt;-->
+        <!--<aop:pointcut id="poincut1" expression="execution(* *.test.*.save())"></aop:pointcut>-->
+
+        <!--&lt;!&ndash;配置通知及通知的织入方式&ndash;&gt;-->
+        <!--<aop:aspect ref="myAspectDao">-->
+            <!--<aop:before method="before" pointcut-ref="poincut1"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
 
 </beans>
 
