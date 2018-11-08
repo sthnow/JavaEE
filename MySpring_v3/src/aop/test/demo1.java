@@ -17,8 +17,8 @@ public class demo1 {
     @Test
     public void run2(){
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("aop/test/applicationContext2.xml");
-        OrderDao orderDao = (OrderDao) applicationContext.getBean("orderDao");
-        orderDao.save();
+                 OrderDao orderDao = (OrderDao) applicationContext.getBean("orderDao");
+                orderDao.save();
     }
 
 }
