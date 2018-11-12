@@ -24,7 +24,7 @@ public class Demo2<ContextConfiguration> {
 
     @Test
     public void run2(){
-        jdbcTemplate.update("insert into t_account values (null,?,?)", "测试5", 700);
+        jdbcTemplate.update("insert into t_account values (null,?,?)", "测试6", 600);
 
     }
 
