@@ -55,4 +55,16 @@ sql映射文件，设置操作数据库的sql语句，需要在SqlMapConfig文�
 - MyBatis：Mybatis学习门槛低，简单易学，程序员直接编写原生态sql，可严格控制sql执行性能，灵活度高，非常适合对关系数据模型要求不高的软件开发，例如互联网软件、企业运营类软件等，因为这类软件需求变化频繁，一但需求变化要求成果输出迅速。但是灵活的前提是mybatis无法做到数据库无关性，如果需要实现支持多种数据库的软件则需要自定义多套sql映射文件，工作量大。
 - Hibernate：Hibernate对象/关系映射能力强，数据库无关性好，对于关系模型要求高的软件（例如需求固定的定制化软件）如果用hibernate开发可以节省很多代码，提高效率。但是Hibernate的学习门槛高，要精通门槛更高，而且怎么设计O/R映射，在性能和对象模型之间如何权衡，以及怎样用好Hibernate需要具有很强的经验和能力才行
 
----
+## DAO开发方法
+使用MyBatis开发DAO，有两种方式
+1. 原始DAO开发方法
+- 存在重复代码，DAO实现类中不同的sql方法都有通过SqlSessionFactory创建SqlSession，调用SqlSession的数据库操作方法
+- 调用SqlSession的数据库操作方法需要指定statement的id，存在硬编码
+2. Mapper接口开发方法
+
+**Mapper动态代理方式**
+Mapper接口开发需要遵循以下规范：
+- mapper接口的类路径和Mapper.xml文件中的namespace相同。
+- Mapper接口方法名和Mapper.xml中定义的每个statement的id相同 
+- Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同
+- Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同
