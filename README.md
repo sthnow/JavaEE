@@ -68,3 +68,77 @@ Mapper接口开发需要遵循以下规范：
 - Mapper接口方法名和Mapper.xml中定义的每个statement的id相同 
 - Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同
 - Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同
+
+## **动态Sql**
+
+通过mybatis提供的各种标签方法来实现动态拼接sql
+
+## **if**
+
+    <select id="" class="">
+    	select * from table
+    	<where>  
+    	//where标签会自动去掉第一个and
+    		<if test="id!=null and id != ''">
+    			//test 标签里面放条件
+    				and id=#{}
+    		</if>
+    		<if test="username != null and username != ''">
+    				and username like '%${}%'	
+    		</if>
+    	</where>
+    </select>
+
+## **foreach**
+
+- foreach语句的用途是当向sql语句中传入list时，可以使用foreach解析list
+
+    <if test="ids!=null and ids != ''">
+    	<foreach collection="ids" item="id" open="" close="" 
+    		separator="">
+    		//colleciton表示传入的集合
+    		//item表示每次遍历的值
+    		//open表示在ids之前的语句
+    		//separator表示每次遍历值之间的分隔符
+    		//close表示结束遍历的语句  
+    			#{id}
+    </foreach>
+    </if>
+    
+
+## sql标签`<sql id="">`
+
+可以将重复的sql语句抽取出来，然后再原来使用的位置上使用,达到重用的目的
+
+`<include refid=""/>`引用
+
+---
+
+# mybatis整合spring
+
+**整合需要做的事**
+
+- **导包**
+    - MyBatis包
+    - Spring包
+    - Spring-MyBatis整合包
+    - junit测试包
+    - mysql驱动包
+- **修改配置文件**
+    - 现在所有的对象都交给了Spring管理，所以在Spring的配置文件ApplicationContext文件中配置连接数据库的信息，并删除掉MyBatis中SqlMapConfig中关于配置数据库的信息
+- 编写Spring配置文件
+    - 数据库连接及配置连接池
+    - 事务管理
+    - sqlsessionFactory对象，配置到Spring容器中
+    - mapper代理对象或者dao实现类配置到Spring容器中
+- 编写dao或者mapper文件
+- 测试
+
+## 整合之后原生DAO方法
+
+两个文件
+
+1. DAO接口文件
+2. DAO实现类文件
+
+**整合后会话工厂归Spring管理**
