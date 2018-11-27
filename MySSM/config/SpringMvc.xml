@@ -27,6 +27,10 @@ bo">
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 
+
+
+
+
 	<!-- 配置自定义转换器 
 	注意: 一定要将自定义的转换器配置到注解驱动上
 	-->
