@@ -11,6 +11,7 @@
     <title>$Title$</title>
   </head>
   <body>
+  这是一个主页
   $END$
   </body>
 </html>
