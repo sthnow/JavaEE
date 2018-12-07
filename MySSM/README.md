@@ -66,10 +66,39 @@ MVC设计模式：即mode，view，controller。
 - 相同
     - 共同的点就是分层，解耦
 
-# 未整理
+# Controller方法的返回值（指定返回到哪个页面，指定返回到页面的数据）
 
-- 参数绑定（怎样从请求中接受参数，接受那种类型的参数）
-    - 一种是默认的四种：HttpServletRequest，HttpServletResopnse，HttpSession，Mode
-    - 一种是基本类型的数据，包括String，SpringMVC可以自动进行类型的转换
+- ModeAndView
+    - modeAndView.addObject("itemList",list)；指定返回页面的数据
+    - modeAndView.setViewName("itemList");    指定返回的页面
+- String(推荐使用)
+    - 返回普通字符串，就是页面去掉前缀和后缀的部分，返回给页面数据通过Model来完成
+    - 返回的字符串以forward:开头为请求转发
+    - 返回的字符串以redirect:开头为重定向
+- 返回void（使用它破坏了springMVC的结构，页面要加全路径，因此不推荐使用）
+    - 可以使用request.setAttribut来给页面返回数据
+    - 可以使用response.getRequestDispatcher().forward()来指定返回的页面
+    - 如果controller返回值为void，则不走springMVC的组件，所以要写页面的完整路径
+
+    相对路径，相对于当前类的目录下，可以使用相对路径跳转
+
+    绝对路径，相对于当前项目的路径下，使用绝对路径跳转。
+
+    在SpringMVC中，不管是forward还是redirect后面凡是以“/”开头的就是绝对路径；不以"/"开头的就是相对路径
+
+    例如：forward:/iterms/itemEdit.action  是绝对路径
+
+    forward:itemEdit.action 是相对路径
+
+**Get请求和Post请求的区分**
+
 - 凡是通过浏览器及问号传参都是get请求
 - post请求是提交数据进行更新保存的，其他都是get请求
+
+# 未整理
+
+mode底层使用了request域，但是对request域进行了扩展。
+
+不管是使用请求转发还是重定向，都可以把数据传输过去
+
+所以推荐使用mode，而不是request和response
