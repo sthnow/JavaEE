@@ -95,7 +95,51 @@ MVC设计模式：即mode，view，controller。
 - 凡是通过浏览器及问号传参都是get请求
 - post请求是提交数据进行更新保存的，其他都是get请求
 
-# 未整理
+# 上传图片
+
+1. 在tomcat中配置虚拟图片服务器
+2. 导入fileupload的jar包
+3. 在springMvc.xml中配置上传组件
+4. 在页面上编写上传域,更改form标签的类型
+5. 在controller方法中可以使用MultiPartFile接口接收上传的图片
+6. 将文件名保存到数据库,将图片保存到磁盘中
+
+# Json数据交互:
+
+1. 需要加入jackson的jar包
+2. @Requestbody:将页面传到controller中的json格式字符串自动转换成java的pojo对象
+3. @ResponseBody:将java中pojo对象自动转换成json格式字符串返回给页
+
+# RestFul支持:
+
+就是对url的命名标准,要求url中只有能名词,没有动词(不严格要求),但是要求url中不能用问号?传参
+传参数:
+页面:${pageContext.request.contextPath }/items/itemEdit/${[item.id](http://item.id/)}
+方法: @RquestMapping("/itemEdit/{id}")
+方法: @PathVariable("id") Integer idd
+
+# 拦截器
+
+作用:拦截请求,一般做登录权限验证时用的比较多
+
+1. 需要编写自定义拦截器类,实现HandlerInterceptor接口
+2. 在spirngMvc.xml中配置拦截器生效
+
+# 登录权限验证
+
+1. 编写登录的controller, 编写跳转到登录页面的方法, 编写登录验证方法
+2. 编写登录页面
+3. 编写拦截器
+
+运行过程
+
+1. 访问随意一个页面,拦截器会拦截请求,会验证session中是否有登录信息
+如果已登录,放行
+如果未登录,跳转到登录页面
+2. 在登录页面中输入用户名,密码,点击登录按钮,拦截器会拦截请求,如果是登录路径放行
+在controller方法中判断用户名密码是否正确,如果正确则将登录信息放入session
+
+## 关于mode的一点补充
 
 mode底层使用了request域，但是对request域进行了扩展。
 
