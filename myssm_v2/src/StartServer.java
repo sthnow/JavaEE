@@ -12,7 +12,7 @@ public class StartServer {
     public void generator() throws Exception{
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-        File configFile = new File("D:\\IDEA\\JavaEE\\myssm_v2\\resources\\generator.xml");
+        File configFile = new File("C:\\IDEA\\JavaEE\\myssm_v2\\resources\\generator.xml");
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
