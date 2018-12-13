@@ -20,4 +20,26 @@
         <property name="maxActive" value="10" />
         <property name="maxIdle" value="5" />
     </bean>
+
+    <!--mapper的配置-->
+    <!--属于mybatis中的需要，mapper文件对操作数据库的接口进行了实现-->
+
+    <!--使用Spring管理mybatis，导入Mybatis-Spring整合包-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--数据库连接池-->
+        <property name="dataSource" ref="dataSource"/>
+
+        <!--加载mybatis的全局配置文件-->
+        <!--mybatis是持久层框架，需要对数据库进行操作，因此需要给mybatis注入一个数据源-->
+        <!--在给mybatis注入数据源后 ，需要读取mybatis核心配置文件，SqlMapConfig.xml文件-->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"/>
+    </bean>
+
+    <!--配置mapper扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定mapper扫描器要扫描的包-->
+        <property name="basePackage" value="cn.itheima.dao"/>
+    </bean>
+
+
 </beans>
