@@ -32,6 +32,8 @@ http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
     <!--切面配置-->
     <aop:config>
         <!--配置切入点和增强方法织入的方式-->
+        <!--pointcut表达式，（第一个*表示返回值，*代表任意，然后是切入点所在的包名），后年的.*表示这个搞包下的所有类-->
+        <!--后面的.*表示所有方法名，（..）表示参数，两个点表示任意参数-->
         <aop:advisor advice-ref="txAdvice" pointcut="execution(* cn.itheima.service.*.*(..))" />
     </aop:config>
 </beans>
