@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--在mybatis中，映射文件中的namespace是用于绑定Dao接口的，即面向接口编程。
+当你的namespace绑定接口后，你可以不用写接口实现类，mybatis会通过该绑定自动帮你找到对应要执行的SQL语句，如下：-->
+<mapper namespace="cn.itheima.dao.DictMapper">
+
+<select id="findDictById" parameterType="String" resultType="cn.itheima.pojo.BaseDict">
+    select * from base_dict where dict_enable=1 and dict_type_code=#{code} order by dict_sort
+</select>
+
+</mapper>
