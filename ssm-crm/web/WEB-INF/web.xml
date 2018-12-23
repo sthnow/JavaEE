@@ -12,7 +12,57 @@
         <welcome-file>default.jsp</welcome-file>
     </welcome-file-list>
 
-    <!---->
+    <!--web.xml文件里要配置的资源-->
+    <!--加载Spring-->
+    <!--加载SpringMVC的前端控制器-->
+    <!--加载解决请求乱码的配置-->
 
+
+    <!--配置Spring-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <!--加载配置文件-->
+        <param-value>classpath:ApplicationContext-*.xml</param-value>
+    </context-param>
+    <!--监听器的作用是什么?-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--加载SpringMVC前端控制器-->
+    <servlet>
+        <servlet-name>SpringMVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:SpringMVC.xml</param-value>
+        </init-param>
+        <!--在TomCat启动时加载-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SpringMVC</servlet-name>
+        <!--以.action结尾请求路径的都要经过SpringMVC的处理-->
+        <!-- *.action 拦截以.action结尾的路径-->
+        <!-- / 拦截所有除了jsp -->
+        <!-- /* 拦截所有-->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+
+    <!--配置Post请求乱码-->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <!--对所有页面都过滤-->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

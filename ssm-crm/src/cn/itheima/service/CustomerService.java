@@ -1,11 +1,15 @@
-package cn.itheima.dao;
+package cn.itheima.service;
 
+import cn.itheima.pojo.BaseDict;
 import cn.itheima.pojo.Customer;
 import cn.itheima.pojo.QueryVo;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.List;
 
-public interface CustomerMapper {
+public interface CustomerService {
+
+    public List<BaseDict> findDictById(String code);
 
     public List<Customer> findCustomerByVo(QueryVo vo);
 
