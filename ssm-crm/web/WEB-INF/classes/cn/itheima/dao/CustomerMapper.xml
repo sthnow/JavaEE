@@ -43,10 +43,59 @@
         LEFT JOIN base_dict d on a.cust_level = d.dict_id
         <include refid="customer_where"></include>
     </select>
-    
-    
+
+
     <!--修改详情-->
     <select id="findCustomerById" parameterType="Long" resultType="cn.itheima.pojo.Customer">
         select * from customer where cust_id = #{id}
     </select>
+
+    <update id="updateCustomerById" parameterType="cn.itheima.pojo.Customer">
+        update customer
+        -- 可以自动添加set关键字，可以去掉最后一个更新的逗号
+        <set>
+            <if test="cust_name != null and cust_name  != ''">
+                cust_name=#{cust_name},
+            </if>
+
+            <if test="cust_source != null and cust_source != ''">
+                cust_source=#{cust_source},
+            </if>
+
+            <if test="cust_industry != null and cust_industry != ''">
+                cust_industry=#{cust_industry},
+            </if>
+
+            <if test="cust_level != null and cust_level != ''">
+                cust_level=#{cust_level},
+            </if>
+
+            <if test="cust_linkman != null and cust_linkman != ''">
+                cust_linkman=#{cust_linkman},
+            </if>
+
+            <if test="cust_phone != null and cust_phone != ''">
+                cust_phone=#{cust_phone},
+            </if>
+
+            <if test="cust_mobile != null and cust_mobile != ''">
+                cust_mobile=#{cust_mobile},
+            </if>
+
+            <if test="cust_zipcode != null and cust_zipcode != ''">
+                cust_zipcode=#{cust_zipcode},
+            </if>
+
+            <if test="cust_address != null and cust_address != ''">
+                cust_address=#{cust_address}
+            </if>
+        </set>
+
+        where cust_id=#{cust_id}
+
+    </update>
+
+    <delete id="deleteCustomerById" parameterType="Integer">
+        delete from customer where cust_id = #{id}
+    </delete>
 </mapper>

@@ -46,7 +46,7 @@
         <!-- *.action 拦截以.action结尾的路径-->
         <!-- / 拦截所有除了jsp -->
         <!-- /* 拦截所有-->
-        <url-pattern>/</url-pattern>
+        <url-pattern>*.action</url-pattern>
     </servlet-mapping>
 
 

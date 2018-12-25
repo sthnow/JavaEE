@@ -99,10 +99,26 @@ public class CustomerController {
         return "customer";
     }
 
+    //    修改详细页面
     @RequestMapping("/detail")
     @ResponseBody
     public Customer detail(Long id) throws Exception {
         Customer customer = customerService.findCustomerById(id);
         return customer;
     }
+
+
+    //  修改保存页面
+    @RequestMapping("/update")
+    public String update(Customer customer) throws Exception {
+        customerService.updateCustomerById(customer);
+        return "";
+    }
+
+    @RequestMapping("/delete")
+    public void delete(Integer id) {
+        customerService.deleteCustomerById(id);
+    }
+
+
 }

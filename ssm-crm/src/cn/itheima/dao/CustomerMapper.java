@@ -12,4 +12,8 @@ public interface CustomerMapper {
     public Integer findCustomerByVoCount(QueryVo vo);
 
     public Customer findCustomerById(Long id);
+
+    public void updateCustomerById(Customer customer);
+
+    public void deleteCustomerById(Integer id);
 }
