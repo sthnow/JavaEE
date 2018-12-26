@@ -142,3 +142,124 @@ Mapper接口开发需要遵循以下规范：
 2. DAO实现类文件
 
 **整合后会话工厂归Spring管理**
+
+1. java项目里classpath具体指哪儿个路径
+
+    [java项目里classpath具体指哪儿个路径 - 大龙的博客 - CSDN博客](https://blog.csdn.net/u011095110/article/details/76152952)
+
+2. 开发web的流程，先写什么再写什么
+3. 这句话中的意思
+
+    <!--切面配置--><aop:config>    <!--配置切入点和增强方法织入的方式-->    <aop:advisor advice-ref="txAdvice" pointcut="execution(* cn.itheima.service.*.*(..))" /></aop:config>
+
+# 开发中的理解
+
+1. 使用ssm框架的时候，只编写jsp页面是无法访问的（jsp页面放在web-inf路径下）。
+    - 表现层框架使用的是SpringMVC框架，客户端发送请求被SpringMVC的前端控制器（DispatcherServlet）接收，然后发送给处理器（Handler,HandlerMapping、HandlerAdapter）。
+    - HandlerMapping找到对应的方法，然后使用HandlerAdapter调用对应的方法处理请求，**自己编写的controller就是处理器适配器**,controller中有调用service层的方法。
+    - 接收业务逻辑层返回处理后的数据给前端转发器
+    - 前端转发器将处理后的数据转发给jsp页面，封装数据，返回html页面
+    - 前端转发器将html页面发送给用户。整个流程结束
+2. **关于请求方法**
+    - 在浏览器中输入的请求都请求的是get方法
+    - post请求用于提交表单，更新表单
+
+# Spring的配置文件中要写什么
+
+1. 如果使用了Spring，如果加注解就相当于在Spring的配置文件中加了一个<bean> 标签。就可以直接调用<bean>标签的id使用这个对象了
+2. **DAO层**
+    - 首先DAO层要操作数据库，因此要连接数据库，所以要把数据库的链接信息给出
+        - 四大参数：驱动类路径，数据库url，用户名，密码
+        - 因为要解耦（不能硬编码），因此要将数据库的链接信息写在配置文件当中
+        - 在xml文件中加载配置文件使用<context:property-placeholder location="classpath:xxx">标签，classpath表示在classpath路径下，因为src路径下的文件编译后默认输出在classpath路径下
+    - 然后DAO层操作数据库就要创建数据库连接，连接从连接池中获得，因此要配置数据库连接池
+    - 有了数据库连接以后，要对数据库进行操作的话要用到对应的方法，这种方法通过mybatis（持久层框架实现）,因此要加载mybatis
+    - 配置好mybatis以后，mybatis并不知道生成的mapper文件路径，因此要配置mapper扫描器
+
+    3. **Service层**
+
+    - 开启注解扫描即可
+
+    4. **通知**
+
+    - 配置通知
+    - 配置切面：通知，切入点，织入的方式
+    - Spring面向切面编程(AOP-execution表达式)
+    - ```execution(* com.loongshawn.method.ces..*.*(..))```
+    - 标识符	含义
+    execution()	表达式的主体
+    第一个“*”符号	表示返回值的类型任意
+    com.loongshawn.method.ces	AOP所切的服务的包名，即，需要进行横切的业务类
+    包名后面的“..”	表示当前包及子包
+    第二个“*”	表示类名，*即所有类
+    .*(..)	表示任何方法名，括号表示参数，两个点表示任何参数类型
+
+# SpringMVC中的配置文件要写什么
+
+## 三大组件的配置
+
+1. 注解驱动
+    - 帮我们配置HandlerMapping和HandlerAdapter
+    - 如果有些自定义的HandlerAdapter，则需这样写
+        - <mvc:annotation-driven conversion-service="自定义HandlerAdapter类名"><mvc:annotation-driven>
+2. 视图解析器
+    - 配置页面前缀和后缀
+3. 开启注解扫描
+
+## jsp页面配置的一些东西
+
+`${pageContext.request.contextPath}`
+
+这句话的意思是获取端口和项目路径
+
+## 使用Restful的好处
+
+1. 使代码整个看起来规范
+2. 不使用restful时，对于get请求来说，可以直接在地址栏通过？传递参数。使用restful后就不能通过地址栏直接传参
+
+## Restful一些理解
+
+/testRESTfulLink/{name}/{time}里面的{name}和{time}表示占位符，通过@PathVariable获取占位符中的参数，默认@PathVariable获取与形参名相同的占位符所表示的值。
+     * 如果@PathVariable获取了一个不存在的占位符的值，如@PathVariable(name = "lang") String xxx，这个就会报异常！！！！
+     * **在@PathVariable(name = "name")中的name名称可以省略，写成@PathVariable("name")两种都表示获取name占位符中的值。**
+     * 形参顺序没有要求，本来就是通过@PathVariable来获取占位符的值。
+     * 如果我们的浏览器链接没有和该地址匹配上，也就是说该有占位符的地方浏览器url中没有，那么就会出现404----/testRESTfulLink/{name}/{time}
+     * 如：/testRESTfulLink/FireLang/2017-05-06 访问正常
+     * /testRESTfulLink/FireLang 出现404
+--------------------- 
+作者：Silence_Mind 
+来源：CSDN 
+原文：https://blog.csdn.net/Marvel__Dead/article/details/71835477 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+## SpringMVC url-pattern的配置
+
+ <!-- SpringMVC前端控制器 -->
+  <servlet>
+    <servlet-name>SpringMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- contextConfigLocation配置SpringMVC加载的配置文件（配置处理器映射器、适配器等等）
+        如果不配置contextConfigLocation，默认加载的是/WEB-INF/servlet名称-servlet.xml(SpringMVC-servlet.xml)
+    -->
+    <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:Spring/applicationContext*.xml</param-value>
+    </init-param>
+    <!-- 配置servlet创建的优先级 -->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SpringMVC</servlet-name>
+    <!-- 
+        **第一种：*.action，访问以.action结尾由DispatcherServlet进行解析
+        第二种：/，所以访问的地址由DispatcherServlet进行解析，对于静态文件的解析需要配置不让DispatcherServlet进行解析，对于静态文件的解析需要配置，不让DispatcherServlet进行解析。
+        使用此种方式可以实现 RESTful 风格的url 。
+        第三种：/*，这样配置不对，使用这种配置，最终要转发到一个jsp页面时，仍然会由DispatcherServlet解析jsp地址，不能根据jsp页面找到Handler，会报错。**
+    -->
+    <url-pattern>/</url-pattern>
+--------------------- 
+作者：Silence_Mind 
+来源：CSDN 
+原文：https://blog.csdn.net/Marvel__Dead/article/details/71835477 
+版权声明：本文为博主原创文章，转载请附上博文链接！
